@@ -5,7 +5,8 @@ import CartContext from './cart-context';
 
 const TASK = {
     ADD: "add",
-    REMOVE: "remove"
+    REMOVE: "remove",
+    CLEAR: "clear"
 };
 
 const defCartState = {
@@ -74,7 +75,12 @@ function cartReducer(state, action){
                     items: updatedItems,
                     totalAmount: updatedTotalAmount
                 });
-
+            }
+        
+        case TASK.CLEAR:
+            {
+                return defCartState;
+            }
                 ////MAX CODE
 
                 //   const existingCartItemIndex = state.items.findIndex(
@@ -96,7 +102,7 @@ function cartReducer(state, action){
                 //     totalAmount: updatedTotalAmount
                 //   };
 
-            }
+            
         default:
             return(state);
     }
@@ -112,7 +118,8 @@ function CartContextProvider(props){
         items: cartState.items,
         totalAmount: cartState.totalAmount,
         addItem: addItemHandler,
-        removeItem: removeItemHandler
+        removeItem: removeItemHandler,
+        clearCart: clearCartHandler
     };
 
     function addItemHandler(item){
@@ -121,6 +128,10 @@ function CartContextProvider(props){
 
     function removeItemHandler(id){
         cartStateDispatch( {type: TASK.REMOVE, id: id} );
+    }
+
+    function clearCartHandler(){
+        cartStateDispatch ( {type: TASK.CLEAR} );
     }
 
     return(
